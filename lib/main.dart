@@ -1,9 +1,31 @@
-import 'screens/identify/login_screen.dart';
+import 'package:demo_nckh/components/drawer.dart';
+import 'package:demo_nckh/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
+import 'firebase_options.dart';
 
 late Size s;
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  // Khởi tạo binding của Flutter (bắt buộc nếu dùng async trong main)
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Full Screen
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+
+  // For setting orientation to portrait only (hiểu là cho phép full screen ở màn hình đầu, còn những màn hình lúc sau thì vẫn thấy các thông báo phía trên)
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) async {
+    // Đợi Firebase khởi tạo xong
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+
+    // Chạy ứng dụng
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -14,18 +36,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        useMaterial3: false,
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           elevation: 1,
           iconTheme: IconThemeData(color: Colors.black),
           titleTextStyle: TextStyle(
-            color: Colors.blue,
+            // color: Colors.blue,
             fontWeight: FontWeight.bold,
             fontSize: 20,
           ),
         ),
       ),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }

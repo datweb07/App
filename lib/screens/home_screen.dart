@@ -1,3 +1,4 @@
+import 'package:demo_nckh/components/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,9 +14,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.blue,
         title: const Text('Chatting'),
-        leading: Icon(CupertinoIcons.home),
         actions: [
           // Search button
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert)),
         ],
       ),
-
+      drawer: MyDrawer(),
       // Button to add new user
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 10),

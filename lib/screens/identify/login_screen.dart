@@ -13,7 +13,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    s = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: const Color.fromARGB(
         255,
@@ -24,12 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 4,
-        backgroundColor: const Color.fromARGB(
-          255,
-          255,
-          255,
-          255,
-        ), // Màu nền của App bar
+        backgroundColor: Colors.blue, // Màu nền của App bar
         title: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
