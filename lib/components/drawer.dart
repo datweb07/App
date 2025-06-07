@@ -1,5 +1,7 @@
+import 'package:demo_nckh/screens/identify/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_nckh/screens/settings_screen.dart';
+import '../screens/mode_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
@@ -27,12 +29,15 @@ class MyDrawer extends StatelessWidget {
                 padding: EdgeInsets.only(left: 25.0, top: 25.0),
                 child: ListTile(
                   title: Text(
-                    "H O M E",
+                    "M O D E",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  leading: Icon(Icons.home),
+                  leading: Icon(Icons.mode),
                   onTap: () {
-                    Navigator.pop(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => ModeScreen()),
+                    );
                   },
                 ),
               ),
@@ -60,14 +65,19 @@ class MyDrawer extends StatelessWidget {
 
           // PHẦN DƯỚI: LOGOUT
           Padding(
-            padding: EdgeInsets.only(left: 25.0, bottom: 50),
+            padding: EdgeInsets.only(left: 25.0, bottom: 60),
             child: ListTile(
               title: Text(
                 "L O G O U T",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               leading: Icon(Icons.logout),
-              onTap: () {},
+              onTap: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginScreen(onTap: () {})),
+                );
+              },
             ),
           ),
         ],

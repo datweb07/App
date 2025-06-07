@@ -1,4 +1,8 @@
+import 'package:demo_nckh/authentication/login_or_register.dart';
 import 'package:demo_nckh/components/drawer.dart';
+import 'package:demo_nckh/screens/identify/login_screen.dart';
+import 'package:demo_nckh/screens/identify/register_screen.dart';
+import 'package:demo_nckh/screens/mode_screen.dart';
 import 'package:demo_nckh/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,6 +39,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: false,
         appBarTheme: const AppBarTheme(
@@ -48,7 +53,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const SplashScreen(),
+      home: SplashScreen(),
     );
   }
 }

@@ -1,5 +1,7 @@
-import 'package:demo_nckh/screens/home_screen.dart';
+import 'package:demo_nckh/authentication/login_or_register.dart';
+import 'package:demo_nckh/screens/chatting_screen.dart';
 import 'package:demo_nckh/screens/identify/login_screen.dart';
+import 'package:demo_nckh/screens/mode_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../main.dart';
@@ -24,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const LoginScreen()),
+        MaterialPageRoute(builder: (_) => LoginOrRegister()),
       );
     });
   }

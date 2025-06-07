@@ -2,21 +2,21 @@ import 'package:demo_nckh/components/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class SpeakScreen extends StatefulWidget {
+  const SpeakScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<SpeakScreen> createState() => _SpeakScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SpeakScreenState extends State<SpeakScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.blue,
-        title: const Text('Chatting'),
+        title: const Text('Speaking'),
         actions: [
           // Search button
           IconButton(onPressed: () {}, icon: const Icon(Icons.search)),
