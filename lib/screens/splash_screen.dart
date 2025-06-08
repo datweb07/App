@@ -1,3 +1,4 @@
+import 'package:demo_nckh/authentication/auth_gate.dart';
 import 'package:demo_nckh/authentication/login_or_register.dart';
 import 'package:demo_nckh/screens/chatting_screen.dart';
 import 'package:demo_nckh/screens/identify/login_screen.dart';
@@ -26,14 +27,14 @@ class _SplashScreenState extends State<SplashScreen> {
       );
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => LoginOrRegister()),
+        MaterialPageRoute(builder: (_) => const AuthGate()),
       );
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    s = MediaQuery.of(context).size;
+    final Size s = MediaQuery.of(context).size;
     return Scaffold(
       body: Stack(
         children: [
@@ -61,3 +62,4 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+

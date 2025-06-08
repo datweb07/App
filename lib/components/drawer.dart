@@ -1,3 +1,5 @@
+import 'package:demo_nckh/authentication/auth_service.dart';
+import 'package:demo_nckh/authentication/login_or_register.dart';
 import 'package:demo_nckh/screens/identify/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:demo_nckh/screens/settings_screen.dart';
@@ -5,6 +7,12 @@ import '../screens/mode_screen.dart';
 
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
+
+  // void logout() {
+  //   // Get auth service
+  //   final _auth = AuthService();
+  //   _auth.signOut();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -63,23 +71,18 @@ class MyDrawer extends StatelessWidget {
             ],
           ),
 
-          // PHẦN DƯỚI: LOGOUT
-          Padding(
-            padding: EdgeInsets.only(left: 25.0, bottom: 60),
-            child: ListTile(
-              title: Text(
-                "L O G O U T",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-              ),
-              leading: Icon(Icons.logout),
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (_) => LoginScreen(onTap: () {})),
-                );
-              },
-            ),
-          ),
+          // // PHẦN DƯỚI: LOGOUT
+          // Padding(
+          //   padding: EdgeInsets.only(left: 25.0, bottom: 60),
+          //   child: ListTile(
+          //     title: Text(
+          //       "L O G O U T",
+          //       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          //     ),
+          //     leading: Icon(Icons.logout),
+          //     onTap: logout,
+          //   ),
+          // ),
         ],
       ),
     );

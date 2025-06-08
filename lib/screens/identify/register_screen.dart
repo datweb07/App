@@ -1,3 +1,4 @@
+import 'package:demo_nckh/authentication/auth_service.dart';
 import 'package:demo_nckh/components/button.dart';
 import 'package:demo_nckh/components/textfield.dart';
 import 'package:demo_nckh/screens/identify/login_screen.dart';
@@ -5,14 +6,21 @@ import 'package:demo_nckh/screens/mode_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
-  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   // Go to RegisterScreen
   final void Function()? onTap;
   RegisterScreen({super.key, required this.onTap});
 
-  void register() {}
+  void register() {
+    // Get auth service
+    final _auth = AuthService();
+    _auth.signUpWithEmailPassword(
+      _emailController.text,
+      _passwordController.text,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,11 +48,11 @@ class RegisterScreen extends StatelessWidget {
             ),
             const SizedBox(height: 25),
 
-            // User name
+            // Email
             Textfield(
-              hinText: "User name",
+              hinText: "Email",
               obscureText: false,
-              controller: _userController,
+              controller: _emailController,
             ),
 
             const SizedBox(height: 10),
@@ -58,19 +66,19 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(height: 25),
 
             // Button register
-            // Button(text: "Register", onTap: register),
-            Button(
-              text: "Register",
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(onTap: () {}),
-                  ),
-                );
-              },
-            ),
+            Button(text: "Register", onTap: register),
 
+            // Button(
+            //   text: "Register",
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //         builder: (context) => LoginScreen(onTap: () {}),
+            //       ),
+            //     );
+            //   },
+            // ),
             const SizedBox(height: 25),
 
             // Register

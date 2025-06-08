@@ -1,3 +1,4 @@
+import 'package:demo_nckh/authentication/auth_gate.dart';
 import 'package:demo_nckh/screens/identify/login_screen.dart';
 import 'package:demo_nckh/screens/identify/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,3 +30,4 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
     }
   }
 }
+

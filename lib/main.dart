@@ -1,3 +1,4 @@
+import 'package:demo_nckh/authentication/auth_gate.dart';
 import 'package:demo_nckh/authentication/login_or_register.dart';
 import 'package:demo_nckh/components/drawer.dart';
 import 'package:demo_nckh/screens/identify/login_screen.dart';
@@ -32,11 +33,20 @@ Future<void> main() async {
   });
 }
 
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+//   runApp(const MyApp());
+// }
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    s = MediaQuery.of(context).size;
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
@@ -57,3 +67,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+ 
