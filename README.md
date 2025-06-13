@@ -1,4 +1,4 @@
-# demo_nckh
+# Mobile application for NCKH
 
 A new Flutter project.
 
