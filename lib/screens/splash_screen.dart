@@ -1,11 +1,6 @@
-import 'package:demo_nckh/authentication/auth_gate.dart';
-import 'package:demo_nckh/authentication/login_or_register.dart';
-import 'package:demo_nckh/screens/chatting_screen.dart';
-import 'package:demo_nckh/screens/identify/login_screen.dart';
-import 'package:demo_nckh/screens/mode_screen.dart';
+import 'package:demo_nckh/services/authentication/auth_gate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../main.dart';
 import '../../animation/animation.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -36,30 +31,70 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     final Size s = MediaQuery.of(context).size;
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            top: s.height * .15,
-            width: s.width,
-            child: const LogoAnimation(),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF4FC3F7),
+              Color(0xFF0288D1),
+            ], // Gradient từ xanh nhạt sang xanh đậm
           ),
-          Positioned(
-            bottom: s.height * 0.3,
-            width: s.width,
-            child: Text(
-              textAlign: TextAlign.center,
-              "MADE BY DAT >.<\nTHANK YOU FOR EVERYONE",
-              style: TextStyle(
-                fontSize: 19,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-                letterSpacing: 1,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: s.height * .15,
+              width: s.width,
+              child: const LogoAnimation(),
+            ),
+            Positioned(
+              bottom: s.height * 0.45,
+              width: s.width,
+              child: Text(
+                textAlign: TextAlign.center,
+                "APPLICATION FOR HEARING AND VISUALLY IMPAIRED PEOPLE",
+                style: TextStyle(
+                  fontSize: 19,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  letterSpacing: 1,
+                ),
               ),
             ),
-          ),
-        ],
+
+            Positioned(
+              bottom: s.height * 0.1,
+              width: s.width,
+              child: Text(
+                textAlign: TextAlign.center,
+                "Please contact me if have a problem\n By email: dat82770@gmail.com",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+
+            Positioned(
+              bottom: s.height * 0.01,
+              width: s.width,
+              left: s.width * 0.2,
+              child: Text(
+                textAlign: TextAlign.center,
+                "DEVELOPED BY DAT",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-

@@ -1,8 +1,6 @@
-import 'package:demo_nckh/authentication/auth_service.dart';
+import 'package:demo_nckh/services/authentication/auth_service.dart';
 import 'package:demo_nckh/components/button.dart';
 import 'package:demo_nckh/components/textfield.dart';
-import 'package:demo_nckh/screens/identify/login_screen.dart';
-import 'package:demo_nckh/screens/mode_screen.dart';
 import 'package:flutter/material.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -13,19 +11,35 @@ class RegisterScreen extends StatelessWidget {
   final void Function()? onTap;
   RegisterScreen({super.key, required this.onTap});
 
-  void register() {
-    // Get auth service
-    final _auth = AuthService();
-    _auth.signUpWithEmailPassword(
-      _emailController.text,
-      _passwordController.text,
-    );
+  // void register() {
+  //   // Get auth service
+  //   final auth = AuthService();
+  //   auth.signUpWithEmailPassword(
+  //     _emailController.text,
+  //     _passwordController.text,
+  //   );
+  // }
+
+  void register(BuildContext context) async {
+    final authService = AuthService();
+
+    try {
+      await authService.signUpWithEmailPassword(
+        _emailController.text,
+        _passwordController.text,
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(title: Text(e.toString())),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -66,19 +80,8 @@ class RegisterScreen extends StatelessWidget {
             const SizedBox(height: 25),
 
             // Button register
-            Button(text: "Register", onTap: register),
+            Button(text: "Register", onTap: () => register(context)),
 
-            // Button(
-            //   text: "Register",
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => LoginScreen(onTap: () {}),
-            //       ),
-            //     );
-            //   },
-            // ),
             const SizedBox(height: 25),
 
             // Register

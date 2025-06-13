@@ -1,4 +1,4 @@
-import 'package:demo_nckh/authentication/login_or_register.dart';
+import 'package:demo_nckh/services/authentication/login_or_register.dart';
 import 'package:demo_nckh/screens/mode_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

@@ -31,7 +31,7 @@ class _LogoAnimationState extends State<LogoAnimation>
       alignment: _animation,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Image.asset('images/iconApp.png', width: 150),
+        child: Image.asset('images/smiley-face.png', width: 150),
       ),
     );
   }

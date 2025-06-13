@@ -1,8 +1,6 @@
-import 'package:demo_nckh/authentication/auth_service.dart';
+import 'package:demo_nckh/services/authentication/auth_service.dart';
 import 'package:demo_nckh/components/button.dart';
 import 'package:demo_nckh/components/textfield.dart';
-import 'package:demo_nckh/screens/chatting_screen.dart';
-import 'package:demo_nckh/screens/mode_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -37,7 +35,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -80,15 +78,6 @@ class LoginScreen extends StatelessWidget {
             // Button login
             Button(text: "Login", onTap: () => login(context)),
 
-            // Button(
-            //   text: "Login",
-            //   onTap: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => ModeScreen()),
-            //     );
-            //   },
-            // ),
             const SizedBox(height: 25),
 
             // Register

@@ -8,7 +8,7 @@ class Textfield extends StatelessWidget {
     super.key,
     required this.hinText,
     required this.obscureText,
-    required this.controller
+    required this.controller,
   });
 
   @override

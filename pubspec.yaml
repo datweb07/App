@@ -1,11 +1,10 @@
 name: demo_nckh
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
+version: 4.0.0+1
 
 environment:
   sdk: ^3.8.1
-
 
 dependencies:
   flutter:
@@ -18,6 +17,13 @@ dependencies:
   # For integrating firebase
   firebase_core: ^3.13.1
   firebase_auth: ^5.5.4
+  cloud_firestore: ^5.6.8
+  provider: ^6.1.5
+  flutter_tts: ^4.2.3
+  speech_to_text: ^7.0.0
+  permission_handler: ^12.0.0+1
+  intl: ^0.20.2
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:
@@ -28,17 +34,13 @@ dev_dependencies:
 flutter_launcher_icons:
   android: "icon_launcher"
   ios: true
-  image_path: "images/iconApp.png"
+  image_path: "images/smiley-face.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   remove_alpha_ios: true
   flutter_lints: ^5.0.0
 
-
 flutter:
-
-
   uses-material-design: true
-
 
   assets:
     - images/
