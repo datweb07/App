@@ -166,8 +166,6 @@
 // }
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_nckh/components/chat_bubble.dart';
-import 'package:demo_nckh/components/textfield.dart';
 import 'package:demo_nckh/services/authentication/auth_service.dart';
 import 'package:demo_nckh/services/authentication/chatting/chatting_service.dart';
 import 'package:flutter/material.dart';
@@ -281,111 +279,118 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
 
   PreferredSizeWidget _buildAppBar() {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(70),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
+      // preferredSize: const Size.fromHeight(70),
+      preferredSize: Size.fromHeight(kToolbarHeight),
+      child: ClipRRect(
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.blue),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.blue,
-                  child: Text(
-                    widget.receiverEmail.substring(0, 1).toUpperCase(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 4,
+                offset: Offset(0, 2),
+              ),
+            ],
+          ),
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back, color: Colors.blue),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.blue,
+                    child: Text(
+                      widget.receiverEmail.substring(0, 1).toUpperCase(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        widget.receiverEmail.split('@').first,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87,
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.receiverEmail.split('@').first,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                          ),
                         ),
-                      ),
-                      Text(
-                        _userStatus,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: _userStatus.contains("Đang hoạt động")
-                              ? Colors.green
-                              : Colors.grey[600],
+                        Text(
+                          _userStatus,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: _userStatus.contains("Đang hoạt động")
+                                ? Colors.green
+                                : Colors.grey[600],
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.videocam, color: Colors.blue),
+                    onPressed: () {
+                      // Video call feature
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Tính năng video call đang phát triển"),
+                        ),
+                      );
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.call, color: Colors.blue),
+                    onPressed: () {
+                      // Voice call feature
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text("Tính năng gọi điện đang phát triển"),
+                        ),
+                      );
+                    },
+                  ),
+                  PopupMenuButton<String>(
+                    icon: Icon(Icons.info_outline, color: Colors.blue),
+                    onSelected: (value) {
+                      switch (value) {
+                        case 'info':
+                          _showUserInfo();
+                          break;
+                        case 'search':
+                          _showSearchInChat();
+                          break;
+                        case 'clear':
+                          _showClearChatDialog();
+                          break;
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(value: 'info', child: Text('Thông tin')),
+                      PopupMenuItem(value: 'search', child: Text('Tìm kiếm')),
+                      PopupMenuItem(
+                        value: 'clear',
+                        child: Text('Xóa cuộc trò chuyện'),
                       ),
                     ],
                   ),
-                ),
-                IconButton(
-                  icon: Icon(Icons.videocam, color: Colors.blue),
-                  onPressed: () {
-                    // Video call feature
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Tính năng video call đang phát triển"),
-                      ),
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.call, color: Colors.blue),
-                  onPressed: () {
-                    // Voice call feature
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text("Tính năng gọi điện đang phát triển"),
-                      ),
-                    );
-                  },
-                ),
-                PopupMenuButton<String>(
-                  icon: Icon(Icons.info_outline, color: Colors.blue),
-                  onSelected: (value) {
-                    switch (value) {
-                      case 'info':
-                        _showUserInfo();
-                        break;
-                      case 'search':
-                        _showSearchInChat();
-                        break;
-                      case 'clear':
-                        _showClearChatDialog();
-                        break;
-                    }
-                  },
-                  itemBuilder: (context) => [
-                    PopupMenuItem(value: 'info', child: Text('Thông tin')),
-                    PopupMenuItem(value: 'search', child: Text('Tìm kiếm')),
-                    PopupMenuItem(
-                      value: 'clear',
-                      child: Text('Xóa cuộc trò chuyện'),
-                    ),
-                  ],
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -787,13 +787,10 @@ class _SpeakScreenState extends State<SpeakScreen>
         elevation: 4,
         onPressed: () {
           flutterTts.speak("Mở danh sách để tạo tin nhắn mới");
-          _toggleSearch(true);
+          // _toggleSearch(true);
+          // _showAddFriendDialog();
         },
-        child: const Icon(
-          Icons.add_comment_rounded,
-          color: Colors.white,
-          size: 24,
-        ),
+        child: const Icon(Icons.person_search, color: Colors.white, size: 24),
       ),
     );
   }
