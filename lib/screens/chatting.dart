@@ -167,7 +167,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:demo_nckh/services/authentication/auth_service.dart';
-import 'package:demo_nckh/services/authentication/chatting/chatting_service.dart';
+import 'package:demo_nckh/services/chatting/chatting_service.dart';
 import 'package:flutter/material.dart';
 
 class Chatting extends StatefulWidget {
@@ -504,7 +504,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
     bool showAvatar = true;
     bool isConsecutive = false;
 
-    String _formatTime(DateTime time) {
+    String formatTime(DateTime time) {
       return "${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}";
     }
 
@@ -598,7 +598,7 @@ class _ChattingState extends State<Chatting> with TickerProviderStateMixin {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        _formatTime((data['timestamp'] as Timestamp).toDate()),
+                        formatTime((data['timestamp'] as Timestamp).toDate()),
                         style: TextStyle(
                           color: isCurrentUser
                               ? Colors.white70

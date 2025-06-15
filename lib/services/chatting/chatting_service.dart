@@ -273,7 +273,7 @@ class ChattingService {
         .doc(chatroomID)
         .collection("message")
         .where("message", isGreaterThanOrEqualTo: query)
-        .where("message", isLessThanOrEqualTo: query + '\uf8ff')
+        .where("message", isLessThanOrEqualTo: '$query\uf8ff')
         .orderBy("message")
         .snapshots();
   }

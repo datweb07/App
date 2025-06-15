@@ -245,7 +245,7 @@ class UserSearchDelegate extends SearchDelegate {
               )
               .where(
                 'username',
-                isLessThanOrEqualTo: searchText.toLowerCase() + '\uf8ff',
+                isLessThanOrEqualTo: '${searchText.toLowerCase()}\uf8ff',
               )
               .limit(10)
               .get();
@@ -272,7 +272,7 @@ class UserSearchDelegate extends SearchDelegate {
                 )
                 .where(
                   'email',
-                  isLessThanOrEqualTo: searchText.toLowerCase() + '\uf8ff',
+                  isLessThanOrEqualTo: '${searchText.toLowerCase()}\uf8ff',
                 )
                 .limit(10)
                 .get();

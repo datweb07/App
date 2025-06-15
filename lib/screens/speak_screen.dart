@@ -417,16 +417,15 @@
 // }
 import 'dart:async';
 import 'package:demo_nckh/components/drawer.dart';
-import 'package:demo_nckh/components/user_tile.dart';
 import 'package:demo_nckh/screens/speaking.dart';
 import 'package:demo_nckh/services/authentication/auth_service.dart';
-import 'package:demo_nckh/services/authentication/speaking/speaking_service.dart';
+import 'package:demo_nckh/services/speaking/speaking_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:demo_nckh/services/authentication/speaking/voice_controller.dart';
+import 'package:demo_nckh/services/speaking/voice_controller.dart';
 
 class SpeakScreen extends StatefulWidget {
   const SpeakScreen({super.key});

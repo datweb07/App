@@ -1488,10 +1488,8 @@
 //   }
 // }
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_nckh/components/chat_bubble.dart';
-import 'package:demo_nckh/components/textfield.dart';
 import 'package:demo_nckh/services/authentication/auth_service.dart';
-import 'package:demo_nckh/services/authentication/speaking/speaking_service.dart';
+import 'package:demo_nckh/services/speaking/speaking_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 

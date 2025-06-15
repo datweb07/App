@@ -183,7 +183,7 @@
 // }
 import 'package:demo_nckh/services/authentication/auth_service.dart';
 import 'package:demo_nckh/screens/chatting_screen.dart';
-import 'package:demo_nckh/services/authentication/chatting/chatting_service.dart';
+import 'package:demo_nckh/services/chatting/chatting_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../animation/animation.dart';
