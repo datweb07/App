@@ -1,194 +1,11 @@
-// import 'package:demo_nckh/services/authentication/auth_service.dart';
-// import 'package:demo_nckh/screens/chatting_screen.dart';
-// import 'package:demo_nckh/services/authentication/chatting/chatting_service.dart';
-// import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart'; // thêm dòng này
-// import '../animation/animation.dart';
-// import '../services/authentication/auth_gate.dart'; // đảm bảo có file này để quay lại sau khi sign out
-// import 'speak_screen.dart';
-// import 'package:flutter_tts/flutter_tts.dart';
-
-// class ModeScreen extends StatefulWidget {
-//   const ModeScreen({super.key});
-
-//   @override
-//   State<ModeScreen> createState() => _ModeScreenState();
-// }
-
-// class _ModeScreenState extends State<ModeScreen> {
-//   final FlutterTts flutterTts = FlutterTts();
-//   final ChattingService chattingService = ChattingService();
-//   final AuthService authService = AuthService();
-//   void logout() {
-//     // Get auth service
-//     final auth = AuthService();
-//     auth.signOut();
-//   }
-
-//   void _confirmLogout() {
-//     showDialog(
-//       context: context,
-//       builder: (context) => AlertDialog(
-//         title: Text('Đăng xuất tài khoản'),
-//         content: Text('Bạn có chắc chắn muốn đăng xuất không?'),
-//         actions: [
-//           TextButton(
-//             onPressed: () => Navigator.pop(context),
-//             child: Text('Hủy', style: TextStyle(fontWeight: FontWeight.bold)),
-//           ),
-//           TextButton(
-//             onPressed: () {
-//               Navigator.pop(context);
-//               authService.signOut();
-//             },
-//             child: Text(
-//               'Đăng xuất',
-//               style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final Size s = MediaQuery.of(context).size;
-//     return Scaffold(
-//       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
-//       appBar: PreferredSize(
-//         preferredSize: const Size.fromHeight(kToolbarHeight),
-//         child: ClipRRect(
-//           borderRadius: const BorderRadius.only(
-//             bottomLeft: Radius.circular(30),
-//             bottomRight: Radius.circular(30),
-//           ),
-//           child: AppBar(
-//             iconTheme: const IconThemeData(color: Colors.white),
-//             centerTitle: true,
-//             elevation: 4,
-//             backgroundColor: Colors.blue,
-//             title: Container(
-//               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-//               decoration: BoxDecoration(
-//                 color: Colors.blue[100],
-//                 borderRadius: BorderRadius.circular(8),
-//                 boxShadow: [
-//                   const BoxShadow(
-//                     color: Colors.grey,
-//                     offset: Offset(2, 2),
-//                     blurRadius: 4,
-//                     spreadRadius: 1,
-//                   ),
-//                 ],
-//               ),
-//               child: const Text(
-//                 "WELCOME TO CHATTING",
-//                 style: TextStyle(
-//                   color: Colors.blue,
-//                   fontSize: 18,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ),
-//             // Logout button
-//             actions: [
-//               IconButton(
-//                 icon: const Icon(Icons.logout, color: Colors.white),
-//                 tooltip: 'Sign out',
-//                 onPressed: () async {
-//                   _confirmLogout(); // Hiển thị hộp thoại xác nhận đăng xuất
-//                   // await FirebaseAuth.instance.signOut();
-//                 },
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//       body: Stack(
-//         children: [
-//           Positioned(
-//             top: s.height * .15,
-//             width: s.width,
-//             child: const LogoAnimation(),
-//           ),
-//           Positioned(
-//             bottom: s.height * 0.10,
-//             width: s.width * 0.9,
-//             height: s.height * 0.06,
-//             left: s.width * 0.05,
-//             child: ElevatedButton.icon(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.lightBlue.shade300,
-//                 shape: const StadiumBorder(),
-//                 elevation: 1,
-//               ),
-//               onPressed: () async {
-//                 await flutterTts.awaitSpeakCompletion(
-//                   true,
-//                 ); // Kích hoạt chờ nói xong
-//                 await flutterTts.speak("Đang vào chế độ cho người khiếm thị");
-//                 Navigator.pushReplacement(
-//                   context,
-//                   MaterialPageRoute(builder: (_) => const SpeakScreen()),
-//                 );
-//               },
-//               icon: Image.asset('images/eyes.png', height: s.height * 0.05),
-//               label: const Text(
-//                 'Visually Impaired People',
-//                 style: TextStyle(
-//                   color: Colors.black,
-//                   fontSize: 19,
-//                   fontWeight: FontWeight.w500,
-//                 ),
-//               ),
-//             ),
-//           ),
-//           Positioned(
-//             bottom: s.height * 0.20,
-//             width: s.width * 0.9,
-//             height: s.height * 0.06,
-//             left: s.width * 0.05,
-//             child: ElevatedButton.icon(
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: Colors.lightBlue.shade300,
-//                 shape: const StadiumBorder(),
-//                 elevation: 1,
-//               ),
-//               onPressed: () async {
-//                 await flutterTts.awaitSpeakCompletion(
-//                   true,
-//                 ); // Kích hoạt chờ nói xong
-//                 await flutterTts.speak("Đang vào chế độ cho người khiếm thính");
-//                 Navigator.pushReplacement(
-//                   context,
-//                   MaterialPageRoute(builder: (_) => ChattingScreen()),
-//                 );
-//               },
-//               icon: Image.asset('images/ear.png', height: s.height * 0.05),
-//               label: const Text(
-//                 'Hearing Impaired People',
-//                 style: TextStyle(
-//                   color: Colors.black,
-//                   fontSize: 19,
-//                   fontWeight: FontWeight.w500,
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:demo_nckh/screens/object_recognition_screen.dart';
 import 'package:demo_nckh/services/authentication/auth_service.dart';
 import 'package:demo_nckh/screens/chatting_screen.dart';
-import 'package:demo_nckh/services/chatting/chatting_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../animation/animation.dart';
 import '../services/authentication/auth_gate.dart';
-import 'speak_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
 class ModeScreen extends StatefulWidget {
@@ -200,7 +17,6 @@ class ModeScreen extends StatefulWidget {
 
 class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
   final FlutterTts flutterTts = FlutterTts();
-  final ChattingService chattingService = ChattingService();
   final AuthService authService = AuthService();
   late AnimationController _fadeController;
   late AnimationController _slideController;
@@ -237,6 +53,71 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
     _fadeController.dispose();
     _slideController.dispose();
     super.dispose();
+  }
+
+  // Hàm lưu loại người dùng vào Firebase
+  Future<void> _saveUserType(String userType) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        await FirebaseFirestore.instance.collection('Users').doc(user.uid).set({
+          'userType': userType,
+          'email': user.email,
+          'lastUpdated': FieldValue.serverTimestamp(),
+        }, SetOptions(merge: true));
+      }
+    } catch (e) {
+      print('Error saving user type: $e');
+      // Có thể show snackbar hoặc dialog thông báo lỗi
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lỗi khi lưu thông tin: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // Hàm điều hướng với hiệu ứng chuyển trang
+  void _navigateToScreen(Widget screen, String userType, String message) async {
+    try {
+      // Lưu loại người dùng trước khi chuyển trang
+      await _saveUserType(userType);
+
+      // Phát âm thông báo
+      await flutterTts.awaitSpeakCompletion(true);
+      await flutterTts.speak(message);
+
+      if (!mounted) return;
+
+      // Chuyển trang với hiệu ứng
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => screen,
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return SlideTransition(
+              position: animation.drive(
+                Tween(
+                  begin: const Offset(1.0, 0.0),
+                  end: Offset.zero,
+                ).chain(CurveTween(curve: Curves.easeInOut)),
+              ),
+              child: child,
+            );
+          },
+          transitionDuration: const Duration(milliseconds: 300),
+        ),
+      );
+    } catch (e) {
+      print('Error navigating: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Lỗi khi chuyển trang: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   void _confirmLogout() {
@@ -375,15 +256,20 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                const SizedBox(width: 20, height: 10),
+                const SizedBox(width: 20),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment
+                        .start, // Thay đổi từ center thành start
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, // Thêm để căn giữa theo chiều dọc
                     children: [
                       Text(
                         title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontSize: 18,
+                          fontSize: 16,
                           fontWeight: FontWeight.bold,
                           color: Colors.black87,
                           letterSpacing: 0.3,
@@ -423,78 +309,6 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final Size s = MediaQuery.of(context).size;
-
-    // return Scaffold(
-    //   backgroundColor: const Color(0xFFF8FAFC),
-    //   body: SafeArea(
-    //     child: Column(
-    //       children: [
-    //         // Header
-    //         Container(
-    //           padding: const EdgeInsets.all(20),
-    //           decoration: BoxDecoration(
-    //             gradient: const LinearGradient(
-    //               begin: Alignment.topLeft,
-    //               end: Alignment.bottomRight,
-    //               colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
-    //             ),
-    //             boxShadow: [
-    //               BoxShadow(
-    //                 color: const Color(0xFF667EEA).withOpacity(0.3),
-    //                 blurRadius: 20,
-    //                 offset: const Offset(0, 10),
-    //               ),
-    //             ],
-    //           ),
-    //           child: Column(
-    //             children: [
-    //               Row(
-    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //                 children: [
-    //                   const Text(
-    //                     'Chào mừng!',
-    //                     style: TextStyle(
-    //                       color: Colors.white,
-    //                       fontSize: 28,
-    //                       fontWeight: FontWeight.bold,
-    //                       letterSpacing: 0.5,
-    //                     ),
-    //                   ),
-    //                   Material(
-    //                     color: Colors.white.withOpacity(0.2),
-    //                     borderRadius: BorderRadius.circular(12),
-    //                     child: InkWell(
-    //                       onTap: _confirmLogout,
-    //                       borderRadius: BorderRadius.circular(12),
-    //                       child: Container(
-    //                         padding: const EdgeInsets.all(12),
-    //                         child: const Icon(
-    //                           Icons.logout_rounded,
-    //                           color: Colors.white,
-    //                           size: 24,
-    //                         ),
-    //                       ),
-    //                     ),
-    //                   ),
-    //                 ],
-    //               ),
-    //               const SizedBox(height: 12),
-    //               Container(
-    //                 alignment: Alignment.centerLeft,
-    //                 child: Text(
-    //                   'Chọn chế độ phù hợp với bạn',
-    //                   style: TextStyle(
-    //                     color: Colors.white.withOpacity(0.9),
-    //                     fontSize: 16,
-    //                     fontWeight: FontWeight.w400,
-    //                   ),
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-
     return Scaffold(
       backgroundColor: const Color(0xFFF8FAFC),
       body: SafeArea(
@@ -509,7 +323,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                   end: Alignment.bottomRight,
                   colors: [Color(0xFF667EEA), Color(0xFF764BA2)],
                 ),
-                borderRadius: BorderRadius.circular(20), // Bo 4 góc
+                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
                     color: const Color(0xFF667EEA).withOpacity(0.3),
@@ -518,9 +332,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                   ),
                 ],
               ),
-              margin: const EdgeInsets.all(
-                16,
-              ), // Thêm margin để tạo khoảng cách
+              margin: const EdgeInsets.all(16),
               child: Column(
                 children: [
                   Row(
@@ -568,6 +380,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                 ],
               ),
             ),
+
             // Logo Animation
             Expanded(
               flex: 2,
@@ -593,42 +406,11 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                         iconPath: 'images/ear.png',
                         primaryColor: const Color(0xFF4F46E5),
                         lightColor: const Color(0xFF818CF8),
-                        onTap: () async {
-                          await flutterTts.awaitSpeakCompletion(true);
-                          await flutterTts.speak(
-                            "Đang vào chế độ cho người khiếm thính",
-                          );
-                          Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      ChattingScreen(),
-                              transitionsBuilder:
-                                  (
-                                    context,
-                                    animation,
-                                    secondaryAnimation,
-                                    child,
-                                  ) {
-                                    return SlideTransition(
-                                      position: animation.drive(
-                                        Tween(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).chain(
-                                          CurveTween(curve: Curves.easeInOut),
-                                        ),
-                                      ),
-                                      child: child,
-                                    );
-                                  },
-                              transitionDuration: const Duration(
-                                milliseconds: 300,
-                              ),
-                            ),
-                          );
-                        },
+                        onTap: () => _navigateToScreen(
+                          ChattingScreen(),
+                          'deaf',
+                          "Đang vào chế độ cho người khiếm thính",
+                        ),
                       ),
 
                       _buildModeCard(
@@ -637,42 +419,12 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                         iconPath: 'images/eyes.png',
                         primaryColor: const Color(0xFF059669),
                         lightColor: const Color(0xFF34D399),
-                        onTap: () async {
-                          await flutterTts.awaitSpeakCompletion(true);
-                          await flutterTts.speak(
-                            "Đang vào chế độ cho người khiếm thị",
-                          );
-                          Navigator.pushReplacement(
-                            context,
-                            PageRouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      const SpeakScreen(),
-                              transitionsBuilder:
-                                  (
-                                    context,
-                                    animation,
-                                    secondaryAnimation,
-                                    child,
-                                  ) {
-                                    return SlideTransition(
-                                      position: animation.drive(
-                                        Tween(
-                                          begin: const Offset(1.0, 0.0),
-                                          end: Offset.zero,
-                                        ).chain(
-                                          CurveTween(curve: Curves.easeInOut),
-                                        ),
-                                      ),
-                                      child: child,
-                                    );
-                                  },
-                              transitionDuration: const Duration(
-                                milliseconds: 300,
-                              ),
-                            ),
-                          );
-                        },
+                        onTap: () => _navigateToScreen(
+                          // const SpeakScreen(),
+                          const ObjectRecognitionScreen(),
+                          'blind',
+                          "Đang vào chế độ cho người khiếm thị",
+                        ),
                       ),
                     ],
                   ),

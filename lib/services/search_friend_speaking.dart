@@ -1,21 +1,21 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:demo_nckh/screens/chatting.dart';
+import 'package:demo_nckh/screens/speaking.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class SearchFriendChatting extends StatefulWidget {
-  const SearchFriendChatting({super.key});
+class SearchFriendSpeaking extends StatefulWidget {
+  const SearchFriendSpeaking({super.key});
 
   static void showAddFriendDialog(BuildContext context) {
-    _SearchFriendChattingState._showAddFriendDialog(context);
+    _SearchFriendSpeakingState._showAddFriendDialog(context);
   }
 
   @override
-  _SearchFriendChattingState createState() => _SearchFriendChattingState();
+  _SearchFriendSpeakingState createState() => _SearchFriendSpeakingState();
 }
 
-class _SearchFriendChattingState extends State<SearchFriendChatting> {
+class _SearchFriendSpeakingState extends State<SearchFriendSpeaking> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -272,7 +272,7 @@ class _SearchFriendChattingState extends State<SearchFriendChatting> {
                                     userData['userType'] as String? ?? '';
 
                                 // Only show chat button if userType is "deaf"
-                                final canChat = userType == 'deaf';
+                                final canChat = userType == 'blind';
 
                                 return Container(
                                   margin: EdgeInsets.symmetric(vertical: 4),
@@ -649,7 +649,7 @@ class _SearchFriendChattingState extends State<SearchFriendChatting> {
     final photoURL = userData['photoURL'] as String?;
     final isOnline = userData['isOnline'] as bool? ?? false;
     final userType = userData['userType'] as String? ?? '';
-    final canChat = userType == 'deaf';
+    final canChat = userType == 'blind';
 
     String lastSeenText = "";
 
@@ -818,7 +818,7 @@ class _SearchFriendChattingState extends State<SearchFriendChatting> {
                       child: Text(
                         canChat
                             ? "Bạn có muốn bắt đầu cuộc trò chuyện với $username?"
-                            : "Bạn không thể nhắn tin với người dùng này vì họ không phải là người khiếm thính",
+                            : "Bạn không thể nhắn tin với người dùng này vì họ không phải là người khiếm thị",
                         style: TextStyle(
                           fontSize: 14,
                           color: canChat ? Colors.blue[700] : Colors.red[700],
@@ -918,7 +918,7 @@ class _SearchFriendChattingState extends State<SearchFriendChatting> {
       context,
       MaterialPageRoute(
         builder: (context) =>
-            Chatting(receiverEmail: receiverEmail, receiverID: receiverId),
+            Speaking(receiverEmail: receiverEmail, receiverID: receiverId),
       ),
     );
   }

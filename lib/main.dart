@@ -1,69 +1,3 @@
-// import 'package:demo_nckh/screens/splash_screen.dart';
-// import 'package:demo_nckh/themes/change_theme.dart';
-// import 'package:flutter/material.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'package:flutter/services.dart';
-// import 'package:provider/provider.dart';
-// import 'firebase_options.dart';
-
-// late Size s;
-// Future<void> main() async {
-//   // Khởi tạo binding của Flutter (bắt buộc nếu dùng async trong main)
-//   WidgetsFlutterBinding.ensureInitialized();
-
-//   // Full Screen
-//   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-
-//   // For setting orientation to portrait only (hiểu là cho phép full screen ở màn hình đầu, còn những màn hình lúc sau thì vẫn thấy các thông báo phía trên)
-//   SystemChrome.setPreferredOrientations([
-//     DeviceOrientation.portraitUp,
-//     DeviceOrientation.portraitDown,
-//   ]).then((value) async {
-//     // Đợi Firebase khởi tạo xong
-//     await Firebase.initializeApp(
-//       options: DefaultFirebaseOptions.currentPlatform,
-//     );
-
-//     // Chạy ứng dụng
-//     runApp(
-//       ChangeNotifierProvider(
-//         create: (_) => ChangeTheme(), // Replace with your ChangeNotifier class
-//         child: const MyApp(),
-//       ),
-//     );
-//   });
-// }
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     s = MediaQuery.of(context).size;
-//     final themeProvider = Provider.of<ChangeTheme>(context);
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//       debugShowCheckedModeBanner: false,
-//       darkTheme: ThemeData.dark(),
-//       themeMode: themeProvider.themeMode,
-//       theme: ThemeData(
-//         useMaterial3: false,
-//         brightness: Brightness.light,
-//         appBarTheme: const AppBarTheme(
-//           centerTitle: true,
-//           elevation: 1,
-//           iconTheme: IconThemeData(color: Colors.black),
-//           titleTextStyle: TextStyle(
-//             // color: Colors.blue,
-//             fontWeight: FontWeight.bold,
-//             fontSize: 20,
-//           ),
-//         ),
-//       ),
-//       home: SplashScreen(),
-//     );
-//   }
-// }
 import 'package:demo_nckh/accessibility_provider.dart';
 import 'package:demo_nckh/screens/splash_screen.dart';
 import 'package:demo_nckh/themes/change_theme.dart';
@@ -72,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 late Size s;
 Future<void> main() async {
@@ -93,14 +28,17 @@ Future<void> main() async {
 
     // Chạy ứng dụng với MultiProvider thay vì ChangeNotifierProvider đơn lẻ
     runApp(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => ChangeTheme()),
-          ChangeNotifierProvider(
-            create: (_) => AccessibilityProvider(),
-          ), // Thêm provider mới
-        ],
-        child: const MyApp(),
+      ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) => MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => ChangeTheme()),
+            ChangeNotifierProvider(create: (_) => AccessibilityProvider()),
+          ],
+          child: const MyApp(),
+        ),
       ),
     );
   });
@@ -116,8 +54,9 @@ class MyApp extends StatelessWidget {
     return Consumer2<ChangeTheme, AccessibilityProvider>(
       builder: (context, themeProvider, accessibilityProvider, child) {
         return MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Sensory Bilingualism',
           debugShowCheckedModeBanner: false,
+
           darkTheme: ThemeData.dark().copyWith(
             // Áp dụng accessibility settings cho dark theme
             textTheme: ThemeData.dark().textTheme.copyWith(

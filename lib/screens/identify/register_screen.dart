@@ -11,15 +11,6 @@ class RegisterScreen extends StatelessWidget {
   final void Function()? onTap;
   RegisterScreen({super.key, required this.onTap});
 
-  // void register() {
-  //   // Get auth service
-  //   final auth = AuthService();
-  //   auth.signUpWithEmailPassword(
-  //     _emailController.text,
-  //     _passwordController.text,
-  //   );
-  // }
-
   void register(BuildContext context) async {
     final authService = AuthService();
 
