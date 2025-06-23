@@ -6,7 +6,8 @@ class Message {
   final String receiverID;
   final String message;
   final Timestamp timestamp;
-  final String messageType; // text or image
+  final String messageType;
+  final String? messageID; 
   final bool isRead;
 
   Message({
@@ -15,31 +16,36 @@ class Message {
     required this.receiverID,
     required this.message,
     required this.timestamp,
-    this.messageType = 'text',
+    required this.messageType,
+    this.messageID, 
     this.isRead = false,
   });
 
+  // Convert to map
   Map<String, dynamic> map() {
     return {
-      'senderID': senderID,
-      'senderEmail': senderEmail,
-      'receiverID': receiverID,
-      'message': message,
-      'timestamp': timestamp,
-      'messageType': messageType,
-      'isRead': isRead,
+      "senderID": senderID,
+      "senderEmail": senderEmail,
+      "receiverID": receiverID,
+      "message": message,
+      "timestamp": timestamp,
+      "messageType": messageType,
+      "messageID": messageID,
+      "isRead": isRead,
     };
   }
 
+  // Create from map
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
-      senderID: map['senderID'] ?? '',
-      senderEmail: map['senderEmail'] ?? '',
-      receiverID: map['receiverID'] ?? '',
-      message: map['message'] ?? '',
-      timestamp: map['timestamp'] ?? Timestamp.now(),
-      messageType: map['messageType'] ?? 'text',
-      isRead: map['isRead'] ?? false,
+      senderID: map["senderID"] ?? "",
+      senderEmail: map["senderEmail"] ?? "",
+      receiverID: map["receiverID"] ?? "",
+      message: map["message"] ?? "",
+      timestamp: map["timestamp"] ?? Timestamp.now(),
+      messageType: map["messageType"] ?? "text",
+      messageID: map["messageID"],
+      isRead: map["isRead"] ?? false,
     );
   }
 }

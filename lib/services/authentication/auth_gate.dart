@@ -1,6 +1,6 @@
 import 'package:demo_nckh/screens/chatting_screen.dart';
 import 'package:demo_nckh/screens/mode_screen.dart';
-import 'package:demo_nckh/screens/speak_screen.dart';
+import 'package:demo_nckh/screens/object_recognition_screen.dart';
 import 'package:demo_nckh/services/authentication/login_or_register.dart';
 import 'package:demo_nckh/services/user_service.dart';
 import 'package:flutter/material.dart';
@@ -90,7 +90,7 @@ class AuthGate extends StatelessWidget {
               case 'deaf':
                 return ChattingScreen();
               case 'blind':
-                return const SpeakScreen();
+                return const ObjectRecognitionScreen();
               default:
                 // Nếu có loại người dùng không hợp lệ, quay về màn hình chọn chế độ
                 return const ModeScreen();

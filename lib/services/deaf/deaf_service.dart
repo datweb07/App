@@ -69,6 +69,7 @@ class DeafService {
                     "lastMessage": data["lastMessage"] ?? "",
                     "lastMessageTime": data["lastMessageTime"],
                     "lastMessageSenderID": data["lastMessageSenderID"],
+                    "lastMessageID": data["lastMessageID"] ?? "",
                     "unreadCount": unreadCount,
                   });
                 }
@@ -92,12 +93,25 @@ class DeafService {
   }
 
   /// Gửi tin nhắn text
-  Future<void> sendMessage(String receiverID, String message) async {
+  Future<String> sendMessage(String receiverID, String message) async {
     try {
       final String currentUserID = auth.currentUser!.uid;
       final String currentUserEmail = auth.currentUser!.email!;
       final Timestamp timestamp = Timestamp.now();
 
+      // Tạo chat room ID
+      List<String> ids = [currentUserID, receiverID];
+      ids.sort();
+      String chatRoomID = ids.join('_');
+
+      // Tạo document reference với ID tự động
+      DocumentReference docRef = firestore
+          .collection("chat_rooms")
+          .doc(chatRoomID)
+          .collection("message")
+          .doc();
+
+      // Tạo message với messageID
       Message newMessage = Message(
         senderID: currentUserID,
         senderEmail: currentUserEmail,
@@ -105,25 +119,23 @@ class DeafService {
         message: message,
         timestamp: timestamp,
         messageType: 'text',
+        messageID: docRef.id,
       );
 
-      List<String> ids = [currentUserID, receiverID];
-      ids.sort();
-      String chatRoomID = ids.join('_');
+      // Lưu message với ID đã định sẵn
+      await docRef.set(newMessage.map());
 
-      await firestore
-          .collection("chat_rooms")
-          .doc(chatRoomID)
-          .collection("message")
-          .add(newMessage.map());
-
+      // Update chat room metadata
       await updateChatRoomMetadata(
         chatRoomID,
         currentUserID,
         receiverID,
         message,
         timestamp,
+        docRef.id,
       );
+
+      return docRef.id; // Return the messageID
     } catch (e) {
       throw Exception('Lỗi khi gửi tin nhắn: $e');
     }
@@ -136,6 +148,7 @@ class DeafService {
     String receiverID,
     String message,
     Timestamp timestamp,
+    String messageID,
   ) async {
     await firestore.collection("chat_rooms").doc(chatRoomID).set({
       "participants": [senderID, receiverID],
@@ -143,6 +156,7 @@ class DeafService {
       "lastMessageTime": timestamp,
       "lastMessageSenderID": senderID,
       "updatedAt": timestamp,
+      "lastMessageID": messageID,
     }, SetOptions(merge: true));
   }
 
@@ -160,7 +174,7 @@ class DeafService {
         .snapshots();
   }
 
-  // / Đánh dấu tin nhắn đã đọc
+  /// Đánh dấu tin nhắn đã đọc
   Future<void> markMessagesAsRead(
     String currentUserID,
     String otherUserID,
@@ -203,21 +217,65 @@ class DeafService {
   }
 
   /// Xóa tin nhắn
-  Future<void> deleteMessage(
-    String messageID,
-    String currentUserID,
-    String otherUserID,
-  ) async {
-    List<String> id = [currentUserID, otherUserID];
-    id.sort();
-    String chatroomID = id.join('_');
+  Future<void> deleteMessage(String messageID, String otherUserID) async {
+    final currentUserId = auth.currentUser!.uid;
 
-    await firestore
-        .collection("chat_rooms")
-        .doc(chatroomID)
-        .collection("message")
-        .doc(messageID)
-        .delete();
+    // Tạo chatroom ID (giống như khi tạo tin nhắn)
+    List<String> ids = [currentUserId, otherUserID];
+    ids.sort();
+    String chatRoomID = ids.join('_');
+
+    // Tìm document có messageID field khớp với messageId
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('chat_rooms')
+        .doc(chatRoomID)
+        .collection('message')
+        .where(messageID)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      // Xóa document đầu tiên tìm được
+      await querySnapshot.docs.first.reference.delete();
+
+      // Cập nhật lastMessage trong chat room nếu cần
+      await _updateLastMessageAfterDelete(chatRoomID);
+    } else {
+      throw Exception('Không tìm thấy tin nhắn để xóa');
+    }
+  }
+
+  Future<void> _updateLastMessageAfterDelete(String chatRoomID) async {
+    final messagesSnapshot = await FirebaseFirestore.instance
+        .collection('chat_rooms')
+        .doc(chatRoomID)
+        .collection('message')
+        .orderBy('timestamp', descending: true)
+        .limit(1)
+        .get();
+
+    if (messagesSnapshot.docs.isEmpty) {
+      final lastMessage = messagesSnapshot.docs.first;
+      await FirebaseFirestore.instance
+          .collection('chat_rooms')
+          .doc(chatRoomID)
+          .update({
+            'lastMessage': lastMessage['message'],
+            'lastMessageSenderID': lastMessage['senderID'],
+            'lastMessageTime': lastMessage['timestamp'],
+          });
+    } else {
+      // Nếu không còn tin nhắn nào, xóa thông tin lastMessage
+      await FirebaseFirestore.instance
+          .collection('chat_rooms')
+          .doc(chatRoomID)
+          .delete();
+      // .update({
+      //   'lastMessage': '',
+      //   'lastMessageID': '',
+      //   'lastMessageSenderID': '',
+      //   'lastMessageTime': null,
+      // });
+    }
   }
 
   /// Tìm kiếm tin nhắn trong cuộc trò chuyện (hữu ích cho người deaf)
@@ -284,48 +342,8 @@ class DeafService {
     await sendMessage(receiverID, emoji);
   }
 
-  // Gửi tin nhắn hình ảnh
-  // Future<void> sendImageMessage(String receiverID, String imagePath) async {
-  //   try {
-  //     final currentUserID = auth.currentUser!.uid;
-  //     final currentUserEmail = auth.currentUser!.email!;
-  //     final timestamp = Timestamp.now();
-
-  //     // Upload ảnh lên Firebase Storage
-  //     final storageRef = FirebaseStorage.instance
-  //         .ref()
-  //         .child('chat_images')
-  //         .child('${currentUserID}_${timestamp.millisecondsSinceEpoch}.jpg');
-
-  //     final uploadTask = await storageRef.putFile(File(imagePath));
-  //     final imageUrl = await uploadTask.ref.getDownloadURL();
-
-  //     // Tạo tin nhắn với URL ảnh
-  //     Message newMessage = Message(
-  //       senderID: currentUserID,
-  //       senderEmail: currentUserEmail,
-  //       receiverID: receiverID,
-  //       message: imageUrl, // Lưu URL ảnh
-  //       timestamp: timestamp,
-  //       messageType: 'image', // Thêm type để phân biệt
-  //     );
-
-  //     // Lưu tin nhắn vào Firestore
-  //     List<String> ids = [currentUserID, receiverID];
-  //     ids.sort();
-  //     String chatRoomID = ids.join('_');
-
-  //     await firestore
-  //         .collection("chat_rooms")
-  //         .doc(chatRoomID)
-  //         .collection("messages")
-  //         .add(newMessage.map());
-  //   } catch (e) {
-  //     throw Exception('Lỗi khi gửi ảnh: ${e.toString()}');
-  //   }
-  // }
-  // Gửi tin nhắn hình ảnh
-  Future<void> sendImageMessage(String receiverID, String imagePath) async {
+  /// Gửi tin nhắn hình ảnh
+  Future<String> sendImageMessage(String receiverID, String imagePath) async {
     try {
       final String currentUserID = auth.currentUser!.uid;
       final String currentUserEmail = auth.currentUser!.email!;
@@ -353,7 +371,19 @@ class DeafService {
       // Lấy download URL
       String downloadURL = await snapshot.ref.getDownloadURL();
 
-      // Tạo message với URL ảnh
+      // Tạo chat room ID
+      List<String> ids = [currentUserID, receiverID];
+      ids.sort();
+      String chatRoomID = ids.join('_');
+
+      // Tạo document reference với ID tự động
+      DocumentReference docRef = firestore
+          .collection("chat_rooms")
+          .doc(chatRoomID)
+          .collection("message") // Sửa từ "messages" thành "message"
+          .doc();
+
+      // Tạo message với URL ảnh và messageID
       Message newMessage = Message(
         senderID: currentUserID,
         senderEmail: currentUserEmail,
@@ -361,19 +391,23 @@ class DeafService {
         message: downloadURL, // URL ảnh
         timestamp: timestamp,
         messageType: 'image', // Đánh dấu đây là tin nhắn ảnh
+        messageID: docRef.id, // Thêm messageID
       );
 
-      // Tạo chat room ID
-      List<String> ids = [currentUserID, receiverID];
-      ids.sort();
-      String chatRoomID = ids.join('_');
+      // Lưu message với ID đã định sẵn
+      await docRef.set(newMessage.map());
 
-      // Lưu message vào Firestore
-      await firestore
-          .collection("chat_rooms")
-          .doc(chatRoomID)
-          .collection("messages")
-          .add(newMessage.map());
+      // Update chat room metadata
+      await updateChatRoomMetadata(
+        chatRoomID,
+        currentUserID,
+        receiverID,
+        "[Hình ảnh]", // Hiển thị text thay vì URL trong last message
+        timestamp,
+        docRef.id,
+      );
+
+      return docRef.id; // Return messageID
     } catch (e) {
       print('Error sending image: $e');
       throw Exception('Lỗi khi gửi ảnh: $e');

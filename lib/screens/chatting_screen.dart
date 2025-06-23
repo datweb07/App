@@ -25,7 +25,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
 
   void _optionMessage(
     BuildContext context,
-    String messageId,
+    String messageID,
     String currentUserID,
     String otherUserID,
     String otherName,
@@ -65,7 +65,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
                 title: const Text("Xóa tin nhắn"),
                 onTap: () async {
                   Navigator.pop(context);
-                  _confirmDeleteMessage(messageId, otherUserID);
+                  _confirmDeleteMessage(messageID, otherUserID);
                 },
               ),
             ],
@@ -75,7 +75,7 @@ class _ChattingScreenState extends State<ChattingScreen> {
     );
   }
 
-  void _confirmDeleteMessage(String messageId, String otherUserID) {
+  void _confirmDeleteMessage(String messageID, String otherUserID) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -90,13 +90,9 @@ class _ChattingScreenState extends State<ChattingScreen> {
             child: Text('Hủy', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               Navigator.pop(context);
-              deafService.deleteMessage(
-                messageId,
-                authService.getCurrentUser()!.uid,
-                otherUserID,
-              );
+              deafService.deleteMessage(messageID, otherUserID);
             },
             child: Text(
               'Xóa',
