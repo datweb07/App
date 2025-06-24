@@ -6,7 +6,6 @@ import 'package:demo_nckh/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-
 class AuthGate extends StatelessWidget {
   const AuthGate({super.key});
 
@@ -24,7 +23,7 @@ class AuthGate extends StatelessWidget {
 
         // Nếu chưa đăng nhập, chuyển đến màn hình đăng nhập
         if (!snapshot.hasData) {
-          return const LoginOrRegister(); // Thay thế bằng màn hình login của bạn
+          return const LoginOrRegister();
         }
 
         // Nếu đã đăng nhập, kiểm tra loại người dùng

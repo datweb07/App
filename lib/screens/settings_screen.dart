@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+// SettingScreen hiển thị màn hình cài đặt
 class Settingssreen extends StatelessWidget {
   const Settingssreen({super.key});
 
+  // Hộp thoại giải thích về hỗ trợ tiếp cận
   void _showAccessibilityDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -30,12 +32,13 @@ class Settingssreen extends StatelessWidget {
     );
   }
 
+  // Tạo widget cho mỗi chức năng
   Widget _buildSettingTile({
     required BuildContext context,
     required String title,
-    required String subtitle,
+    required String subtitle, // Mô tả
     required IconData icon,
-    Widget? trailing,
+    Widget? trailing, // Nút chuyển đổi, thanh trượt,...
     VoidCallback? onTap,
     String? semanticLabel,
   }) {
@@ -44,16 +47,16 @@ class Settingssreen extends StatelessWidget {
     return Semantics(
       label: semanticLabel ?? title,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12),
+        margin: const EdgeInsets.only(bottom: 12), // Khoảng cách dưới
         decoration: BoxDecoration(
           color: accessibilityProvider.getBackgroundColor(context),
           borderRadius: BorderRadius.circular(16),
           border: accessibilityProvider.highContrast
               ? Border.all(color: Colors.grey, width: 2)
-              : null,
+              : null, // Viền nếu bật độ tương phản cao
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withOpacity(0.05), // Đổ bóng
               blurRadius: 10,
               offset: const Offset(0, 2),
             ),
@@ -64,6 +67,7 @@ class Settingssreen extends StatelessWidget {
             horizontal: 20,
             vertical: 8,
           ),
+          // Khoảng cách nội dung
           leading: Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -87,15 +91,15 @@ class Settingssreen extends StatelessWidget {
                     baseStyle: TextStyle(fontSize: 14, color: Colors.grey[600]),
                   ),
                 )
-              : null,
-          trailing: trailing,
+              : null, // Hiển thị mô tả (nếu có)
+          trailing: trailing, // Widget bên phải
           onTap: onTap != null
               ? () {
                   if (accessibilityProvider.vibration) {
-                    HapticFeedback.lightImpact();
+                    HapticFeedback.lightImpact(); // Rung nhẹ nếu bật
                   }
                   if (accessibilityProvider.soundEffects) {
-                    SystemSound.play(SystemSoundType.click);
+                    SystemSound.play(SystemSoundType.click); // Âm thanh nếu bật
                   }
                   onTap();
                 }
@@ -105,6 +109,7 @@ class Settingssreen extends StatelessWidget {
     );
   }
 
+  // Tiên đề cho các chức năng
   Widget _buildSectionHeader(BuildContext context, String title) {
     final accessibilityProvider = Provider.of<AccessibilityProvider>(context);
 
@@ -124,12 +129,15 @@ class Settingssreen extends StatelessWidget {
     );
   }
 
+  // Tạo giao diện
   @override
   Widget build(BuildContext context) {
     return Consumer2<ChangeTheme, AccessibilityProvider>(
       builder: (context, themeProvider, accessibilityProvider, child) {
         return Scaffold(
-          backgroundColor: accessibilityProvider.getBackgroundColor(context),
+          backgroundColor: accessibilityProvider.getBackgroundColor(
+            context,
+          ), // Màu nền
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(kToolbarHeight + 10),
             child: Container(
@@ -138,14 +146,14 @@ class Settingssreen extends StatelessWidget {
                   colors: [
                     Theme.of(context).primaryColor,
                     Theme.of(context).primaryColor.withOpacity(0.8),
-                  ],
+                  ], // Gradient cho AppBar
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(25),
                   bottomRight: Radius.circular(25),
-                ),
+                ), // Bo góc dưới AppBar
               ),
               child: AppBar(
                 backgroundColor: Colors.transparent,
@@ -159,7 +167,7 @@ class Settingssreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       if (accessibilityProvider.vibration) {
-                        HapticFeedback.lightImpact();
+                        HapticFeedback.lightImpact(); // Rung khi nhấn
                       }
                       Navigator.pop(context);
                     },
@@ -187,6 +195,7 @@ class Settingssreen extends StatelessWidget {
           ),
           body: ListView(
             children: [
+              // Phần giao diện
               _buildSectionHeader(context, 'Giao diện'),
 
               _buildSettingTile(
@@ -195,16 +204,16 @@ class Settingssreen extends StatelessWidget {
                 subtitle: 'Thay đổi giao diện sáng/tối',
                 icon: themeProvider.isDarkMode
                     ? Icons.dark_mode
-                    : Icons.light_mode,
+                    : Icons.light_mode, // Biểu tượng theo chế độ
                 semanticLabel:
                     'Chuyển đổi chế độ tối, hiện tại ${themeProvider.isDarkMode ? "bật" : "tắt"}',
                 trailing: CupertinoSwitch(
                   value: themeProvider.isDarkMode,
                   onChanged: (value) {
                     if (accessibilityProvider.vibration) {
-                      HapticFeedback.selectionClick();
+                      HapticFeedback.selectionClick(); // Rung khi chuyển đổi
                     }
-                    themeProvider.toggleTheme(value);
+                    themeProvider.toggleTheme(value); // Chuyển sang dark mode
                   },
                 ),
               ),
@@ -222,7 +231,9 @@ class Settingssreen extends StatelessWidget {
                     if (accessibilityProvider.vibration) {
                       HapticFeedback.selectionClick();
                     }
-                    accessibilityProvider.setHighContrast(value);
+                    accessibilityProvider.setHighContrast(
+                      value,
+                    ); // Bật/tắt độ tương phản
                   },
                 ),
               ),
@@ -252,6 +263,7 @@ class Settingssreen extends StatelessWidget {
                 ),
               ),
 
+              // Phần hỗ trợ người khiếm thị
               _buildSectionHeader(context, 'Hỗ trợ người khiếm thị'),
 
               _buildSettingTile(
@@ -267,11 +279,14 @@ class Settingssreen extends StatelessWidget {
                     if (accessibilityProvider.vibration) {
                       HapticFeedback.selectionClick();
                     }
-                    accessibilityProvider.setVoiceNavigation(value);
+                    accessibilityProvider.setVoiceNavigation(
+                      value,
+                    ); // Bật/tắt điều hướng
                   },
                 ),
               ),
 
+              // Phần hỗ trợ người khiếm thị
               _buildSectionHeader(context, 'Hỗ trợ người khiếm thính'),
 
               _buildSettingTile(
@@ -284,14 +299,15 @@ class Settingssreen extends StatelessWidget {
                 trailing: CupertinoSwitch(
                   value: accessibilityProvider.vibration,
                   onChanged: (value) {
-                    accessibilityProvider.setVibration(value);
-                    if (value) HapticFeedback.mediumImpact();
+                    accessibilityProvider.setVibration(value); // Bật/tắt rung
+                    if (value) HapticFeedback.mediumImpact(); // Rung khi bật
                   },
                 ),
               ),
 
               const SizedBox(height: 20),
 
+              // Phần phát triển trong tương lai
               _buildSectionHeader(context, 'Phát triển trong tương lai'),
 
               _buildSettingTile(
@@ -338,7 +354,7 @@ class Settingssreen extends StatelessWidget {
                   child: FloatingActionButton(
                     onPressed: () {
                       if (accessibilityProvider.vibration) {
-                        HapticFeedback.mediumImpact();
+                        HapticFeedback.mediumImpact(); // Rung khi nhấn
                       }
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -350,12 +366,12 @@ class Settingssreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                      );
+                      ); // Hiển thị thông báo hướng dẫn
                     },
                     child: const Icon(Icons.mic),
                   ),
                 )
-              : null,
+              : null, // Hiển thị nút mic nếu bật điều hướng giọng nói
         );
       },
     );

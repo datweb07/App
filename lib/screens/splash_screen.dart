@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../animation/animation.dart';
 
+// SplashScreen hiển thị màn hình đầu tiên của application
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -15,11 +16,13 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 8), () {
-      // Exit full screen
+      // Thoát chế độ toàn màn hình
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      // Thiết lập thanh trạng thái trong suốt
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
       );
+      // Điều hướng sang màn hình AuthGate
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const AuthGate()),
@@ -27,9 +30,12 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  // Tạo giao diện
   @override
   Widget build(BuildContext context) {
-    final Size s = MediaQuery.of(context).size;
+    final Size s = MediaQuery.of(
+      context,
+    ).size; // Lưu biến s với kích thước màn hình
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -44,13 +50,15 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
         child: Stack(
           children: [
+            // Logo với hiệu ứng
             Positioned(
               top: s.height * .15,
               width: s.width,
               child: const LogoAnimation(),
             ),
+            // Tiêu đề application
             Positioned(
-              bottom: s.height * 0.45,
+              bottom: s.height * 0.45, // Cách đáy 45% chiều cao màn hình
               width: s.width,
               child: Text(
                 textAlign: TextAlign.center,
@@ -63,9 +71,9 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
             ),
-
+            // Thông tin liên hệ
             Positioned(
-              bottom: s.height * 0.1,
+              bottom: s.height * 0.1, // Cách đáy 10% chiều cao màn hình
               width: s.width,
               child: Text(
                 textAlign: TextAlign.center,
@@ -77,11 +85,11 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
             ),
-
+            // Người phát triển
             Positioned(
-              bottom: s.height * 0.01,
+              bottom: s.height * 0.01, // Cách đáy 1% chiều cao màn hình
               width: s.width,
-              left: s.width * 0.2,
+              left: s.width * 0.2, // Lệch trái 20% chiều rộng màn hình
               child: Text(
                 textAlign: TextAlign.center,
                 "DEVELOPED BY DAT",

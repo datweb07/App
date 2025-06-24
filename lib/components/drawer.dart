@@ -3,17 +3,20 @@ import 'package:demo_nckh/screens/settings_screen.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import '../screens/mode_screen.dart';
 
+// Tạo lớp MyDrawer để tạo thanh menu bên trái thiết bị
 class MyDrawer extends StatelessWidget {
   const MyDrawer({super.key});
 
+  // Method tạo giao diện
   @override
   Widget build(BuildContext context) {
-    final FlutterTts flutterTts = FlutterTts();
+    final FlutterTts flutterTts =
+        FlutterTts(); // Khởi tạo đối tượng TextToSpeech
     return ClipRRect(
       borderRadius: const BorderRadius.only(
         topRight: Radius.circular(30),
         bottomRight: Radius.circular(30),
-      ),
+      ), // Bo góc
       child: Drawer(
         backgroundColor: Theme.of(context).colorScheme.surface,
         child: Column(
@@ -43,11 +46,17 @@ class MyDrawer extends StatelessWidget {
                     ),
                     leading: Icon(Icons.mode),
                     onTap: () async {
-                      await flutterTts.awaitSpeakCompletion(true);
-                      await flutterTts.speak("Đang vào chế độ người dùng");
+                      await flutterTts.awaitSpeakCompletion(
+                        true,
+                      ); // Chờ hoàn thành TTS
+                      await flutterTts.speak(
+                        "Đang vào chế độ người dùng",
+                      ); // Đọc thông báo
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => ModeScreen()),
+                        MaterialPageRoute(
+                          builder: (_) => ModeScreen(),
+                        ), // Chuyển sang ModeScreen
                       );
                     },
                   ),
@@ -68,7 +77,7 @@ class MyDrawer extends StatelessWidget {
                       await flutterTts.speak("Đang vào chế độ cài đặt");
                       Navigator.pop(context);
 
-                      // Navigate to settings page
+                      // Chuyển sang SettingScreen
                       Navigator.push(
                         context,
                         MaterialPageRoute(

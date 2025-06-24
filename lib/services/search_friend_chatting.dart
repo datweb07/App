@@ -18,11 +18,10 @@ class SearchFriendChatting extends StatefulWidget {
 class _SearchFriendChattingState extends State<SearchFriendChatting> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 
-  // Cải thiện method getFriendlyErrorMessage
+  // Xử lý thông báo lỗi Firebase
   static String getFriendlyErrorMessage(dynamic error) {
     print("Error details: $error");
 
@@ -42,7 +41,7 @@ class _SearchFriendChattingState extends State<SearchFriendChatting> {
     return 'Có lỗi không xác định: ${error.toString()}';
   }
 
-  // Dialog để thêm bạn bè - phiên bản cải tiến
+  // Dialog để thêm bạn bè
   static void _showAddFriendDialog(BuildContext context) {
     final TextEditingController friendController = TextEditingController();
     final ValueNotifier<bool> isSearching = ValueNotifier<bool>(false);

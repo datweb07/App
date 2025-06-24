@@ -12,17 +12,21 @@ class VoiceService extends StatefulWidget {
 
 class _VoiceServiceState extends State<VoiceService> {
   final SpeechToText _speech = SpeechToText();
+
+  // Trạng thái nhận diện giọng nói
   bool _speechEnabled = false;
+  // Lưu từ nhận diện
   String _words = "";
+  // Độ chính xác
   double _confidence = 0;
   @override
   void initState() {
     super.initState();
-    _initSpeech();
+    _initSpeech(); // Khởi tạo nhận diện ngay khi widget được tạo
   }
 
   Future<void> _initSpeech() async {
-    var status = await Permission.microphone.request();
+    var status = await Permission.microphone.request();   // Yêu cầu quyền micro
     if (status != PermissionStatus.granted) {
       print('❌ Microphone permission not granted');
       return;

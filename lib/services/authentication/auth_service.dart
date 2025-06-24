@@ -5,12 +5,12 @@ class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
 
-  // Get current user
+  // Lấy người dùng hiện tại
   User? getCurrentUser() {
     return auth.currentUser;
   }
 
-  // Sign in
+  // Đăng nhập
   Future<UserCredential> signInWithEmailPassword(String email, password) async {
     try {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
@@ -35,7 +35,7 @@ class AuthService {
     }
   }
 
-  // Sign up
+  // Đăng ký
   Future<UserCredential> signUpWithEmailPassword(String email, password) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -61,7 +61,7 @@ class AuthService {
     }
   }
 
-  // Sign out
+  // Đăng xuất
   Future<void> signOut() async {
     final uid = auth.currentUser?.uid;
     if (uid != null) {
@@ -73,6 +73,7 @@ class AuthService {
     return await auth.signOut();
   }
 
+  // Thông báo một vài ngoại lệ
   String handleException(FirebaseAuthException e) {
     switch (e.code) {
       case 'email-already-in-use':

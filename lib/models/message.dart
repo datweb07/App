@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Message {
-  final String senderID;
-  final String senderEmail;
-  final String receiverID;
-  final String message;
-  final Timestamp timestamp;
-  final String messageType;
-  final String? messageID; 
-  final bool isRead;
+  final String senderID; // ID người gửi
+  final String senderEmail; // Email người gửi
+  final String receiverID; // ID người nhận
+  final String message; // Nội dung tin nhắn
+  final Timestamp timestamp; // Thời gian gửi tin
+  final String messageType; // Loại tin (text, image)
+  final String? messageID; // ID tin nhắn (có thể null)
+  final bool isRead; // Trạng thái tin nhắn (read or unread)
 
+  // Constructor
   Message({
     required this.senderID,
     required this.senderEmail,
@@ -17,11 +18,11 @@ class Message {
     required this.message,
     required this.timestamp,
     required this.messageType,
-    this.messageID, 
-    this.isRead = false,
+    this.messageID,
+    this.isRead = false, // Mặc định là chưa đọc
   });
 
-  // Convert to map
+  // Chuyển đổi đối tượng Message thành Map để lưu vào firestore
   Map<String, dynamic> map() {
     return {
       "senderID": senderID,
@@ -35,7 +36,7 @@ class Message {
     };
   }
 
-  // Create from map
+  // Tạo đối tượng Message từ Map
   factory Message.fromMap(Map<String, dynamic> map) {
     return Message(
       senderID: map["senderID"] ?? "",

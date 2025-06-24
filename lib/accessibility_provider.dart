@@ -1,16 +1,16 @@
-// accessibility_provider.dart
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Lớp quản lý các cài đặt hỗ trợ tiếp cận
 class AccessibilityProvider extends ChangeNotifier {
   // Private variables
   bool _highContrast = false;
   bool _largeText = false;
   bool _screenReader = true;
-  bool _vibration = true;
-  bool _soundEffects = true;
+  bool _vibration = true; // Rung thiết bị
+  bool _soundEffects = true; // Hiệu ứng âm thanh
   double _textSize = 1.0;
-  bool _voiceNavigation = false;
+  bool _voiceNavigation = false; // Điều hướng bằng giọng nói
 
   // Getters
   bool get highContrast => _highContrast;
@@ -21,15 +21,17 @@ class AccessibilityProvider extends ChangeNotifier {
   double get textSize => _textSize;
   bool get voiceNavigation => _voiceNavigation;
 
-  // Constructor - Load settings when app starts
+  // Constructor - Tải lại các settings khi khởi động lại app
   AccessibilityProvider() {
     _loadSettings();
   }
 
-  // Load settings from SharedPreferences
+  // Tải lại cài đặt từ SharedPreferences (bộ nhớ cục bộ)
   Future<void> _loadSettings() async {
+    // Khởi tạo biến để sử dụng bộ nhớ cục bộ
     final prefs = await SharedPreferences.getInstance();
-    
+
+    // Tải lại các cài đặt từ bộ nhớ cục bộ, nếu không đổi thì sử dụng cài đặt mặc định
     _highContrast = prefs.getBool('highContrast') ?? false;
     _largeText = prefs.getBool('largeText') ?? false;
     _screenReader = prefs.getBool('screenReader') ?? true;
@@ -37,14 +39,17 @@ class AccessibilityProvider extends ChangeNotifier {
     _soundEffects = prefs.getBool('soundEffects') ?? true;
     _textSize = prefs.getDouble('textSize') ?? 1.0;
     _voiceNavigation = prefs.getBool('voiceNavigation') ?? false;
-    
+
+    // Thông báo cho các widget sử dụng provider rằng trạng thái đã thay đổi
     notifyListeners();
   }
 
-  // Save settings to SharedPreferences
+  // Lưu cài đặt vào SharedPreferences
   Future<void> _saveSettings() async {
+    // Khởi tạo biến để lưu dữ liệu
     final prefs = await SharedPreferences.getInstance();
-    
+
+    // Lưu các cài đặt vào SharedPreferences
     await prefs.setBool('highContrast', _highContrast);
     await prefs.setBool('largeText', _largeText);
     await prefs.setBool('screenReader', _screenReader);
@@ -54,11 +59,11 @@ class AccessibilityProvider extends ChangeNotifier {
     await prefs.setBool('voiceNavigation', _voiceNavigation);
   }
 
-  // Setters with auto-save
+  // Setters để cập nhật giá trị của cài đặt và tự động lưu
   void setHighContrast(bool value) {
-    _highContrast = value;
-    _saveSettings();
-    notifyListeners();
+    _highContrast = value; // Gán giá trị mới
+    _saveSettings(); // Lưu vào SharedPreferences
+    notifyListeners(); // Thông báo thay đổi trạng thái
   }
 
   void setLargeText(bool value) {
@@ -97,25 +102,29 @@ class AccessibilityProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Helper methods
+  // Lấy màu dựa trên độ tương phản
   Color getTextColor(BuildContext context) {
     if (_highContrast) {
-      return Theme.of(context).brightness == Brightness.dark 
-          ? Colors.white 
+      return Theme.of(context).brightness == Brightness.dark
+          ? Colors.white
           : Colors.black;
     }
+    // Trả về màu văn bản mặc định nếu không bật chế độ tương phản
     return Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black;
   }
 
+  // Màu nền dựa trên chế độ tương phản
   Color getBackgroundColor(BuildContext context) {
     if (_highContrast) {
-      return Theme.of(context).brightness == Brightness.dark 
-          ? Colors.black 
+      return Theme.of(context).brightness == Brightness.dark
+          ? Colors.black
           : Colors.white;
     }
+    // Trả về màu nền mặc định nếu không bật chế độ tương phản
     return Theme.of(context).scaffoldBackgroundColor;
   }
 
+  // Tạo kiểu văn bản
   TextStyle getTextStyle(BuildContext context, {TextStyle? baseStyle}) {
     final defaultStyle = baseStyle ?? Theme.of(context).textTheme.bodyLarge!;
     return defaultStyle.copyWith(

@@ -10,10 +10,10 @@ class LoginOrRegister extends StatefulWidget {
 }
 
 class _LoginOrRegisterState extends State<LoginOrRegister> {
-  // Initially login screen
+  // Khởi tạo màn hình login
   bool showLoginScreen = true;
 
-  // Toggle between login and register screen
+  // Chuyển đổi giữa hai màn hình đăng nhập và đăng ký
   void toggle() {
     setState(() {
       showLoginScreen = !showLoginScreen;
@@ -29,4 +29,3 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
     }
   }
 }
-

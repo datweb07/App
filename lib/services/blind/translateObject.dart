@@ -14,12 +14,11 @@ class TranslateObject extends StatefulWidget {
 class _TranslateObjectState extends State<TranslateObject> {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     throw UnimplementedError();
   }
 
   static String _translateToVietnamese(String englishLabel) {
-    // Dictionary đơn giản để dịch một số nhãn phổ biến
+    // Dictionary đơn giản để dịch một số từ phổ biến
     Map<String, String> translations = {
       'person': 'người',
       'car': 'xe hơi',
@@ -55,7 +54,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'handbag': 'túi xách tay',
       'aviation': 'hàng không',
 
-      // === CON NGƯỜI & CƠ THỂ ===
       'people': 'mọi người',
       'man': 'nam giới',
       'woman': 'nữ giới',
@@ -78,7 +76,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'foot': 'bàn chân',
       'body': 'cơ thể',
 
-      // === PHƯƠNG TIỆN GIAO THÔNG ===
       'vehicle': 'phương tiện',
       'truck': 'xe tải',
       'bus': 'xe buýt',
@@ -104,7 +101,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'crosswalk': 'vạch sang đường',
       'bridge': 'cầu',
 
-      // === ĐỘNG VẬT ===
       'animal': 'động vật',
       'bird': 'chim',
       'fish': 'cá',
@@ -126,7 +122,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'spider': 'nhện',
       'insect': 'côn trùng',
 
-      // === ĐỒ DÙNG NHÀ BẾP ===
       'kitchen': 'nhà bếp',
       'stove': 'bếp nấu',
       'oven': 'lò nướng',
@@ -148,7 +143,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'toaster': 'máy nướng bánh mì',
       'blender': 'máy xay sinh tố',
 
-      // === THỨC ĂN & ĐỒ UỐNG ===
       'drink': 'đồ uống',
       'water': 'nước',
       'tea': 'trà',
@@ -188,7 +182,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'chocolate': 'sô cô la',
       'ice cream': 'kem',
 
-      // === NỘI THẤT & ĐỒ DÙNG NHÀ ===
       'furniture': 'đồ nội thất',
       'desk': 'bàn làm việc',
       'couch': 'ghế dài',
@@ -223,7 +216,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'garbage': 'rác',
       'recycling bin': 'thùng rác tái chế',
 
-      // === THIẾT BỊ ĐIỆN TỬ ===
       'smartphone': 'điện thoại thông minh',
       'tablet': 'máy tính bảng',
       'computer': 'máy tính',
@@ -251,7 +243,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'router': 'bộ phát wifi',
       'modem': 'modem',
 
-      // === QUẦN ÁO & PHỤ KIỆN ===
       'clothes': 'quần áo',
       'clothing': 'trang phục',
       'shirt': 'áo sơ mi',
@@ -293,7 +284,6 @@ class _TranslateObjectState extends State<TranslateObject> {
       'suitcase': 'vali',
       'luggage': 'hành lý',
 
-      // === CÔNG CỤ & DỤNG CỤ ===
       'tool': 'công cụ',
       'hammer': 'búa',
       'screwdriver': 'tuốc nơ vít',

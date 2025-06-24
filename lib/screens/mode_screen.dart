@@ -8,6 +8,7 @@ import '../animation/animation.dart';
 import '../services/authentication/auth_gate.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
+// ModeScreen hiển thị màn hình chọn chế độ
 class ModeScreen extends StatefulWidget {
   const ModeScreen({super.key});
 
@@ -16,38 +17,41 @@ class ModeScreen extends StatefulWidget {
 }
 
 class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
-  final FlutterTts flutterTts = FlutterTts();
-  final AuthService authService = AuthService();
-  late AnimationController _fadeController;
-  late AnimationController _slideController;
-  late Animation<double> _fadeAnimation;
-  late Animation<Offset> _slideAnimation;
+  final FlutterTts flutterTts = FlutterTts(); // Khởi tạo TextToSpeech
+  final AuthService authService = AuthService(); // Khởi tạo xác thực
+  late AnimationController _fadeController; // Controller cho hiệu ứng mờ
+  late AnimationController _slideController; // Controller cho hiệu ứng trượt
+  late Animation<double> _fadeAnimation; //Animation mờ dần
+  late Animation<Offset> _slideAnimation; //Animation trượt
 
+  // Khởi tạo controller và animation
   @override
   void initState() {
     super.initState();
     _fadeController = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800), // Thời gian hiệu ứng mờ
       vsync: this,
     );
     _slideController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 1000), // Thời gian hiệu ứng trượt
       vsync: this,
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _fadeController, curve: Curves.easeInOut),
-    );
+    ); // Animation mờ từ 0 -> 1
 
     _slideAnimation =
         Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(
           CurvedAnimation(parent: _slideController, curve: Curves.easeOutCubic),
-        );
+        ); // Animation trượt từ dưới lên
 
+    // Bắt đầu các hiệu ứng
     _fadeController.forward();
     _slideController.forward();
   }
 
+  // Giải phóng tài nguyên
   @override
   void dispose() {
     _fadeController.dispose();
@@ -120,6 +124,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
     }
   }
 
+  // Hiển thị hộp thoại đăng xuất
   void _confirmLogout() {
     showDialog(
       context: context,
@@ -172,7 +177,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
           ),
           ElevatedButton(
             onPressed: () async {
-              await FirebaseAuth.instance.signOut();
+              await FirebaseAuth.instance.signOut(); // Đăng xuất
               if (!mounted) return;
               Navigator.pushAndRemoveUntil(
                 context,
@@ -199,13 +204,14 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Thẻ chọn chế độ
   Widget _buildModeCard({
     required String title,
     required String description,
     required String iconPath,
     required VoidCallback onTap,
     required Color primaryColor,
-    required Color lightColor,
+    required Color lightColor, // Màu phụ
   }) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -259,10 +265,8 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                 const SizedBox(width: 20),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment
-                        .start, // Thay đổi từ center thành start
-                    mainAxisAlignment: MainAxisAlignment
-                        .center, // Thêm để căn giữa theo chiều dọc
+                    crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
+                    mainAxisAlignment: MainAxisAlignment.center, // Căn giữa dọc
                     children: [
                       Text(
                         title,
@@ -307,6 +311,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
     );
   }
 
+  // Tạo giao diện chính
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -390,7 +395,7 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
               ),
             ),
 
-            // Mode Selection Cards
+            // Chọn chế độ
             Expanded(
               flex: 3,
               child: SlideTransition(
@@ -420,7 +425,6 @@ class _ModeScreenState extends State<ModeScreen> with TickerProviderStateMixin {
                         primaryColor: const Color(0xFF059669),
                         lightColor: const Color(0xFF34D399),
                         onTap: () => _navigateToScreen(
-                          // const SpeakScreen(),
                           const ObjectRecognitionScreen(),
                           'blind',
                           "Đang vào chế độ cho người khiếm thị",

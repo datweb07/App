@@ -52,7 +52,7 @@ class UserService {
     return userType != null && userType.isNotEmpty;
   }
 
-  // Xóa loại người dùng (khi logout hoặc reset)
+  // Xóa loại người dùng (khi logout)
   static Future<bool> clearUserType() async {
     try {
       final user = _auth.currentUser;
@@ -99,7 +99,7 @@ class UserService {
     }
   }
 
-  // Lấy thông tin đầy đủ của người dùng
+  // Lấy thông tin của người dùng
   static Future<Map<String, dynamic>?> getUserInfo() async {
     try {
       final user = _auth.currentUser;

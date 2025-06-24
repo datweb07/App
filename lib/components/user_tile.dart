@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+// UserTile để hiển thị thông tin người dùng
 class UserTile extends StatelessWidget {
-  final String email;
-  final String lastSeen;
-  final bool isOnline;
-  final void Function()? onTap;
+  final String email; // Email người dùng
+  final String lastSeen; // Thời gian truy cập cuối cùng
+  final bool isOnline; // Trạng thái trực tuyến
+  final void Function()? onTap; // Hàm callback khi nhấn
 
   const UserTile({
     super.key,
@@ -19,22 +20,25 @@ class UserTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 6,
+        ), // Khoảng cách bên ngoài
+        padding: const EdgeInsets.all(12), // Khoảng cách bên trong
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.shade300,
-              blurRadius: 5,
-              offset: const Offset(2, 2),
+              color: Colors.grey.shade300, // Màu bóng
+              blurRadius: 5, // Độ mờ bóng
+              offset: const Offset(2, 2), // Vị trí bóng
             ),
           ],
         ),
         child: Row(
           children: [
-            // Avatar với chấm online
+            // Avatar với chấm trạng thái online
             Stack(
               children: [
                 const CircleAvatar(
@@ -49,21 +53,25 @@ class UserTile extends StatelessWidget {
                     width: 12,
                     height: 12,
                     decoration: BoxDecoration(
-                      color: isOnline ? Colors.green : Colors.grey,
+                      color: isOnline
+                          ? Colors.green
+                          : Colors.grey, // Màu xanh nếu online, xám nếu offline
                       shape: BoxShape.circle,
-                      border: Border.all(color: Colors.white, width: 2),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2,
+                      ), // Viền trắng
                     ),
                   ),
                 ),
               ],
             ),
 
-            const SizedBox(width: 16),
-
+            const SizedBox(width: 16), // Khoảng cách giữa avatar và thông tin
             // Thông tin người dùng
             Expanded(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start, // Căn trái
                 children: [
                   Text(
                     email,

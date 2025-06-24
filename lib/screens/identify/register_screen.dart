@@ -7,7 +7,7 @@ class RegisterScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Go to RegisterScreen
+  // RegisterScreen
   final void Function()? onTap;
   RegisterScreen({super.key, required this.onTap});
 

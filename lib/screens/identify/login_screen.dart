@@ -8,7 +8,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  // Go to LoginScreen
+  // LoginScreen
   final void Function()? onTap;
   LoginScreen({super.key, required this.onTap});
 
@@ -26,7 +26,6 @@ class LoginScreen extends StatelessWidget {
     // Some errors
     catch (e) {
       showDialog(
-        // ignore: use_build_context_synchronously
         context: context,
         builder: (context) => AlertDialog(title: Text(e.toString())),
       );
