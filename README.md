@@ -1,4 +1,4 @@
-# Mobile application for NCKH
+# Mobile application 
 
 A new Flutter project.
 
